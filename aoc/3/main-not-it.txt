@@ -1,0 +1,79 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+func main() {
+	file, err := os.Open("input2.txt")
+	if err != nil {
+		fmt.Printf("Error opening file: %v\n", err)
+		return
+	}
+	defer file.Close()
+
+	// parse each line
+	scanner := bufio.NewScanner(file)
+
+	totalJoltage := 0
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		bank := line
+		fmt.Print("========" + "\n")
+		fmt.Print(bank + "\n")
+
+		var result []byte
+
+		for {
+			highestValue, hvIndex := getHighestJoltageAtEarliestIndex(bank)
+			fmt.Printf("single highest battery for bank: %d at index %d\n", highestValue, hvIndex)
+			// first add the highest value to the result set
+			result = append(result, byte(highestValue)+'0')
+			var resultTail []byte
+
+			if hvIndex != len(bank) && len(bank[hvIndex+1:]) > 0 {
+				// there are batteries to the right of the highest value battery
+				// let's get all the heighest batteries to the right
+				tail := bank[hvIndex+1:]
+				for i := 0; i < len(tail); i++ {
+					// append the batery to the end result byte slice
+					result = append(result, tail[i])
+					if len(result) == 12 {
+						break
+					}
+				}
+			}
+			if len(result) < 12 {
+				bank = bank[0:hvIndex]
+				resultTail = result
+				continue
+			} else {
+				break
+			}
+		}
+
+		fmt.Printf("%s\n", result)
+	}
+
+	fmt.Printf("TOTAL: %d \n", totalJoltage)
+
+}
+
+func getHighestJoltageAtEarliestIndex(bank string) (int, int) {
+	var highestValue int
+	var position int
+	for i, battery := range bank {
+		// convert the rune to an int
+		batteryInt := int(battery - '0')
+		if batteryInt > highestValue {
+			highestValue = batteryInt
+			position = i
+
+		}
+	}
+
+	return highestValue, position
+}

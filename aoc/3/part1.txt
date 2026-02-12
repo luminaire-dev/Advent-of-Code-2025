@@ -1,0 +1,73 @@
+package main
+
+// import (
+// 	"bufio"
+// 	"fmt"
+// 	"os"
+// 	"strconv"
+// )
+
+// func main2() {
+// 	file, err := os.Open("input.txt")
+// 	if err != nil {
+// 		fmt.Printf("Error opening file: %v\n", err)
+// 		return
+// 	}
+// 	defer file.Close()
+
+// 	// parse each line
+// 	scanner := bufio.NewScanner(file)
+
+// 	totalJoltage := 0
+
+// 	for scanner.Scan() {
+// 		line := scanner.Text()
+// 		bank := line
+// 		fmt.Print("========" + "\n")
+// 		fmt.Print(bank + "\n")
+
+// 		highestValue, hvIndex := findHighestSingleBatteryAndIndex(bank)
+// 		fmt.Printf("single highest battery for bank: %d at index %d\n", highestValue, hvIndex)
+
+// 		// loop through all digits after the index of highest value to find next highest
+// 		var highestJoltage string
+// 		tail := bank[hvIndex+1:]
+// 		nextHighestValue, _ := findHighestSingleBatteryAndIndex(tail)
+// 		if nextHighestValue == 0 {
+// 			// nothing after the highest value, loop back through the head of the string
+// 			// to get the nextHighestValue and append as the first digit in the string
+// 			head := bank[0:hvIndex]
+// 			nextHighestValue, _ = findHighestSingleBatteryAndIndex(head)
+// 			highestJoltage = strconv.Itoa(nextHighestValue) + strconv.Itoa(highestValue)
+// 		} else {
+// 			// nexthigher values found after position of first highest value
+// 			highestJoltage = strconv.Itoa(highestValue) + strconv.Itoa(nextHighestValue)
+// 		}
+// 		fmt.Printf("highest joltages: %s \n", highestJoltage)
+// 		result, err := strconv.Atoi(highestJoltage)
+// 		if err != nil {
+// 			fmt.Printf("Error converting highestJoltage to int: %v\n", err)
+// 			continue
+// 		}
+// 		totalJoltage += result
+// 	}
+
+// 	fmt.Print(totalJoltage)
+
+// }
+
+// func findHighestSingleBatteryAndIndex(bank string) (int, int) {
+// 	var highestValue int
+// 	var position int
+// 	for i, battery := range bank {
+// 		// convert the rune to an int
+// 		batteryInt := int(battery - '0')
+// 		if batteryInt > highestValue {
+// 			highestValue = batteryInt
+// 			position = i
+
+// 		}
+// 	}
+
+// 	return highestValue, position
+// }
